@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>House Price Prediction</title>
+  <!-- Latest Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Google Fonts - Replace 'Your_Custom_Font' with the desired font -->
+  <link href="https://fonts.googleapis.com/css?family=Your_Custom_Font&display=swap" rel="stylesheet">
+  <style>
+    body {
+      background-color: #f0f0f0;
+      font-family: 'Your_Custom_Font', sans-serif;
+    }
+
+    .card {
+      margin-top: 50px;
+    }
+
+    .card-header {
+      background-color: #007bff;
+      color: #fff;
+      padding: 20px;
+    }
+
+    .card-body {
+      padding: 20px;
+    }
+
+    .form-group label {
+      margin-bottom: 5px;
+    }
+
+    .form-control {
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    .btn-primary {
+      background-color: #007bff;
+      border: none;
+    }
+
+    .btn-primary:hover {
+      background-color: #0056b3;
+    }
+
+    .prediction-text {
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-header text-center">
+            <h1>Welcome to House Price Prediction</h1>
+          </div>
+          <div class="card-body">
+            <form method="post" accept-charset="utf-8">
+              <div class="row">
+                <div class="col-md-6 form-group">
+                  <label for="location"><b>Select Location</b></label>
+                  <select class="form-control" name="location" id="location" required>
+                    {% for location in locations %}
+                      <option value="{{ location }}">{{ location }}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+                <div class="col-md-6 form-group">
+                  <label for="bkh"><b>Enter BHK</b></label>
+                  <input type="text" class="form-control" id="bkh" name="bhk" placeholder="Enter BHK">
+                </div>
+                <div class="col-md-6 form-group">
+                  <label for="bath"><b>Enter number of bathrooms</b></label>
+                  <input type="text" class="form-control" id="bath" name="bath" placeholder="Enter bathrooms">
+                </div>
+                <div class="col-md-6 form-group">
+                  <label for="total_sqft"><b>Enter square feet</b></label>
+                  <input type="text" class="form-control" id="total_sqft" name="total_sqft" placeholder="Enter Square feet">
+                </div>
+                <div class="col-md-12 form-group">
+                  <button class="btn btn-primary form-control" onclick="send_data()">Predict Price</button>
+                </div>
+              </div>
+            </form>
+            <div class="col-md-12 prediction-text">
+              <h3><span id="prediction"></span></h3>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+
+<script>
+    function form_handler(event){
+        event.preventDefault();
+    }
+// whenever we are submitting using eventlistner it goes to form_handler(event) and then supress the front end website
+// it suppress it like if we don't put any data in enter the area it would show field not allowed or something like that
+// but form_handler prevents that and keeps it in the same place as it was thus keeps it default
+    function send_data(){
+        
+        document.querySelector('form').addEventListener("submit",form_handler)
+        let fd = new FormData(document.querySelector('form'));
+        let xhr = new XMLHttpRequest();
+        // opening the xhr stored http request
+        //(opening a new request)
+        xhr.open('POST', '/predict', true);
+        // if server gets slow it will show wait predicting price
+        // (predicting the price)
+        document.getElementById('prediction').innerHTML = "Wait Predicting Price!....";
+       // in these lines we say whenever we get the response we are updating the response in place of prediction
+        xhr.onreadystatechange = function(){
+            // if the http request id done then the prediction is displayed
+            if(xhr.readyState == XMLHttpRequest.DONE){
+                document.getElementById("prediction").innerHTML = "Prediction : ₹"+xhr.responseText
+            }
+        };
+        xhr.onload = function(){};
+        xhr.send(fd);
+    }
+</script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js" integrity="sha384-mQ93GR66B00ZXjt0YO5KlohRA5SY2XofN4zfuZxLkoj1gXtW8ANNCe9d5Y3eG5eD" crossorigin="anonymous"></script>
+
+  </body>
+</html>
