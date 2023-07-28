@@ -13,4 +13,9 @@ HTML,CSS,JS. The .pkl file that has trained model. The clean data.
 # Getting Started
 To get started with the project. Do the following steps:-
 1. Clone the repository:
-2. <kbd style="background-color: lightblue; padding: 10px;"> </kbd>
+    <kbd style="background-color: lightblue; padding: 10px;">https://github.com/qazi-humayoon/House_Price_Prediction.git </kbd>
+2. Set up the Python environment with the required dependencies. It is recommended to use a virtual environment:
+3. Run the  <kbd style="background-color: lightblue; padding: 10px;">programs/house_price_prediction.ipynb</kbd> sequentially to execute the code and reproduce the results.
+
+#Acknowledgements
+The dataset used in this project is sourced from Kaggle. Parts of the code and project structure are inspired by Campus X.
